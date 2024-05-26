@@ -13,3 +13,4 @@ char* pop(Stack* stack);
 char* peekStack(Stack stack);
 bool isStackEmpty(Stack stack);
 bool isStackFull(Stack stack);
+void clearStack(Stack* stack);
