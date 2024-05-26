@@ -17,3 +17,4 @@ void enqueue(Queue* queue, char* string);
 char* dequeue(Queue* queue);
 char* peekQueue(Queue* queue);
 bool isQueueEmpty(Queue queue);
+void clearQueue(Queue* queue);
