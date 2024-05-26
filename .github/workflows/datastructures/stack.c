@@ -72,3 +72,19 @@ bool isStackEmpty(Stack stack) {
 bool isStackFull(Stack stack) {
     return stack.topIndex == MAX_SIZE - 1;
 }
+
+/**
+ * Clears all elements from the stack.
+ * 
+ * This function removes all elements from the given stack by 
+ * repeatedly popping elements until the stack is empty.
+ * 
+ * @param stack A pointer to the stack to be cleared.
+ * 
+ * @return void
+ */
+void clearStack(Stack* stack) {
+    while(!isStackEmpty(*stack)) {
+        pop(stack);
+    }
+}
