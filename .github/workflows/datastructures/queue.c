@@ -85,3 +85,19 @@ char* peekQueue(Queue* queue) {
 bool isQueueEmpty(Queue queue) {
     return queue.front == NULL && queue.rear == NULL;
 }
+
+/**
+ * Clears all elements from the queue.
+ * 
+ * This function removes all elements from the given queue by 
+ * repeatedly dequeuing elements until the queue is empty.
+ * 
+ * @param queue A pointer to the queue to be cleared.
+ * 
+ * @return void
+ */
+void clearQueue(Queue* queue) {
+    while (!isQueueEmpty(*queue)) {
+        dequeue(queue);
+    }
+}
