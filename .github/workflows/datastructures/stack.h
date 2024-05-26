@@ -1,6 +1,6 @@
-#include "calculator.h"
+#include "../calculator.h"
 
-#define MAX_SIZE STRING_LEN
+#define MAX_SIZE 128
 
 typedef struct StackTag {
     char*   strings[MAX_SIZE];
@@ -10,6 +10,6 @@ typedef struct StackTag {
 void initStack(Stack* stack);
 void push(Stack* stack, char* string);
 char* pop(Stack* stack);
-char* peek(Stack* stack);
+char* peekStack(Stack stack);
 bool isStackEmpty(Stack stack);
 bool isStackFull(Stack stack);
