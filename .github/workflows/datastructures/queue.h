@@ -15,6 +15,7 @@ typedef struct QueueTag {
 void initQueue(Queue* queue);
 void enqueue(Queue* queue, char* string);
 char* dequeue(Queue* queue);
-char* peekQueue(Queue* queue);
+char* frontOfQueue(Queue* queue);
+char* rearOfQueue(Queue* queue);
 bool isQueueEmpty(Queue queue);
 void clearQueue(Queue* queue);
