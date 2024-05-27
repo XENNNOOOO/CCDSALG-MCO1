@@ -66,13 +66,29 @@ char* dequeue(Queue* queue) {
  * 
  * @return The string at the front of the queue, or NULL if the queue is empty.
  */
-char* peekQueue(Queue* queue) {
+char* frontOfQueue(Queue* queue) {
     if (isQueueEmpty(*queue)) {
         printf("Queue is empty!\n");
         return NULL;
     }
 
     return queue->front->string;
+}
+
+/**
+ * Returns the rear element of the queue without removing it.
+ * 
+ * @param queue A pointer to the queue to peek at.
+ * 
+ * @return The string at the rear of the queue, or NULL if the queue is empty.
+ */
+char* rearOfQueue(Queue* queue) {
+    if (isQueueEmpty(*queue)) {
+        printf("Queue is empty!\n");
+        return NULL;
+    }
+
+    return queue->rear->string;
 }
 
 /**
