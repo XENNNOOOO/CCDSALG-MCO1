@@ -9,7 +9,7 @@
  * @return A pointer to the allocated memory, or NULL if the allocation fails.
  */
 void* allocate(int bytes) {
-    void* ptr = (void*) malloc(bytes);
+    void* ptr = malloc(bytes);
 
     if (ptr == NULL) {
         printf("Memory allocation failed...\n");
