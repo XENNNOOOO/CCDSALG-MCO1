@@ -29,7 +29,7 @@ int operatorPrecedence(char* key)
 
 
 
-int isStringOperator(String tempChar)
+int isStringOperator(char tempChar[])
 {
     int isString;
 
@@ -43,7 +43,7 @@ int isStringOperator(String tempChar)
 }
 
 
-int isCharOperator(char tempChar)
+int isCharOperator(char tempChar[])
 {
     int isChar;
 
