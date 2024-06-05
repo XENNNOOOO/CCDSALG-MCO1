@@ -8,50 +8,6 @@
 typedef char String[128];
 #define HASHMAP_MAX_SIZE 16
 
-/*
-
-typedef struct QueueTag {
-    struct NodeTag* front;
-    struct NodeTag* rear;
-} Queue;
-
-typedef struct StackTag {
-    char*   strings[MAX_SIZE];
-    int     topIndex;
-} Stack;
-
-
-void initQueue(Queue* queue);
-void enqueue(Queue* queue, char* string);
-char* dequeue(Queue* queue);
-char* frontOfQueue(Queue* queue);
-char* rearOfQueue(Queue* queue);
-bool isQueueEmpty(Queue queue);
-void clearQueue(Queue* queue);
-
-void initStack(Stack* stack);
-void push(Stack* stack, char* string);
-char* pop(Stack* stack);
-char* peekStack(Stack stack);
-bool isStackEmpty(Stack stack);
-bool isStackFull(Stack stack);
-void clearStack(Stack* stack);
-
-unsigned int hash(char* key);
-void initHashMap(HashMap* map);
-void put(HashMap* map, char* key, int value);
-int get(HashMap* map, char* key);
-void freeHashMap(HashMap* map);
-*/
-
-/*
-string input
-stack string operators
-string tempChar
-char tempChar
-return: queue string output
-*/
-
 int operatorPrecedence(char* key)
 {
     HashMap* operatorMap;
