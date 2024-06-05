@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include <ctype.h>
-#include "queue.c"
-#include "stack.c"
-#include "hashmap.c"
+#include "shunting_yard_algo.h"
 
 
 typedef char String[128];
+#define HASHMAP_MAX_SIZE 16
 
 /*
 
@@ -47,113 +47,101 @@ void freeHashMap(HashMap* map);
 /*
 string input
 stack string operators
-string tempString
+string tempChar
 char tempChar
 return: queue string output
 */
 
-int operatorPrecedence(char* key, HashMap* operatorMap)
+int operatorPrecedence(char* key)
 {
+    HashMap* operatorMap;
+
     String signs[16] = {"+", "-", "*", "!" "/", "%", "<", ">", "<=", ">=", "==", "!=", "||", "&&", "^"};
-
+    int keyValues[16] = {1, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 6, 7, 8};
     initHashMap(operatorMap);
-    put(operatorMap, signs[3], 1);
-    put(operatorMap, signs[2], 2);
-    put(operatorMap, signs[4], 2);
-    put(operatorMap, signs[5], 2);
-    put(operatorMap, signs[0], 3);
-    put(operatorMap, signs[1], 3);
-    put(operatorMap, signs[6], 4);
-    put(operatorMap, signs[7], 4);
-    put(operatorMap, signs[8], 4);
-    put(operatorMap, signs[9], 4);
-    put(operatorMap, signs[10], 5);
-    put(operatorMap, signs[11], 5);
-    put(operatorMap, signs[14], 6);
-    put(operatorMap, signs[13], 7);
-    put(operatorMap, signs[12], 8);
 
+    for(int i = 0; i < HASHMAP_MAX_SIZE; i++) 
+    {
+        put(operatorMap, signs[i], keyValues[i]);
+    }
+    
+    int precedence = get(operatorMap, key);
+    freeHashMap(operatorMap);
 
-    int numPrecedence = get(operatorMap, key);
-
-    return numPrecedence;
+    return precedence;
 }
 
 
 
-int isStringOperator(String tempString)
+int isStringOperator(String tempChar)
 {
-    int x;
+    int isString;
 
-
-    if (strcmp(tempString, "==") == 1 || strcmp(tempString, ">=") == 1 || strcmp(tempString, "<=") == 1 || strcmp(tempString, "%") == 1 || strcmp(tempString, "||") == 1 || strcmp(tempString, "&&") == 1 || strcmp(tempString, "!=") == 1)
+    if (strcmp(tempChar, "==") == 1 || strcmp(tempChar, ">=") == 1 || strcmp(tempChar, "<=") == 1 || strcmp(tempChar, "%") == 1 || strcmp(tempChar, "||") == 1 || strcmp(tempChar, "&&") == 1 || strcmp(tempChar, "!=") == 1)
     {
-        x = 1;
+        isString = 1;
     }
-    else x = 0;
+    else isString = 0;
 
-    return x;
+    return isString;
 }
 
 
 int isCharOperator(char tempChar)
 {
-    int x;
+    int isChar;
 
     if (tempChar == 'x' || tempChar == '-' || tempChar == '*' || tempChar == '/' || tempChar == '!' || tempChar == '^' || tempChar == '>' || tempChar == '<')
     {
-        x = 1;
+        isChar = 1;
     }
-    else x = 0;
+    else isChar = 0;
 
-    return x;
+    return isChar;
 }
 
 
 
-Queue infixToPostfix(char input[], Stack* stack)
+Queue* infixToPostfix(char input[])
 {
     int i;
-
-    Queue postfix;
-    String tempString;
-    char tempChar;
-    HashMap operatorMap;
-    initHashMap(&operatorMap);
-    char ops[3];
+    char tempChar[2] = {'\0'};
+    Stack* stack;
+    Queue* postfix;
+    initQueue(postfix);
+    initStack(stack);
 
     for(i = 0; i < strlen(input); i++)
     {
-        tempChar = input[i];
+        strcpy(tempChar, input[i]);
 
         if(isdigit(input[i]))
         {
-            if (i>0 && isCharOperator(i-1))
+            if (i > 0 && isCharOperator(i-1))
             {
                 push(stack, &(input[i]));
-                strcpy(tempString, "");
+                strcpy(tempChar, "");
             }
-        strcpy(tempString, &tempChar);
+        strcpy(tempChar, &tempChar);
         }
-        else if (isCharOperator(tempChar) == 1)
+        else if (isCharOperator(tempChar))
         {
-            if (isdigit(input[i-1]))
+            if (i > 0 && isdigit(input[i-1]))
             {
-                enqueue(&postfix, tempString);
-                strcpy(tempString, "");
+                enqueue(postfix, tempChar);
+                strcpy(tempChar, "");
             }
-            strcat(tempString, &tempChar);
+            strcat(tempChar, tempChar);
 
-            if (isStringOperator(tempString) == 1)
+            if (isStringOperator(tempChar))
             {
-                while(operatorPrecedence(&tempChar, &operatorMap), operatorPrecedence((peekStack(*stack)), &operatorMap))
+                while(operatorPrecedence(tempChar) < operatorPrecedence((peekStack(*stack))))
                 {
-                    strcpy(ops, pop(stack));
-                    enqueue(&postfix, ops);
+                    enqueue(postfix, pop(stack));
                 }
 
-                push(stack, tempString);
-                strcpy(tempString, "");
+                push(stack, tempChar);
+                strcpy(tempChar, "");
             }
         }
         else if (tempChar == '(')
@@ -162,25 +150,25 @@ Queue infixToPostfix(char input[], Stack* stack)
         }
         else if (tempChar == ')')
         {
-            enqueue(&postfix, tempString);
-            strcpy(tempString, "");
+            enqueue(postfix, tempChar);
+            strcpy(tempChar, "");
 
-            while (atoi(peekStack(*stack))!= '(')
+            while (peekStack(*stack) != '(')
             {
-                enqueue(&postfix, pop(stack));
+                enqueue(postfix, pop(stack));
             }
             pop(stack);
         }
 
-    if (strcmp(tempString, "") != 0)
+    if (strcmp(tempChar, "") != 0)
     {
-        enqueue(&postfix, tempString);
-        strcpy(tempString, "");
+        enqueue(postfix, tempChar);
+        strcpy(tempChar, "");
     }
 
     while(!isStackEmpty(*stack))
     {
-        enqueue(&postfix, pop(stack));
+        enqueue(postfix, pop(stack));
     }
     }
 
@@ -193,23 +181,27 @@ int main()
     String infix; 
     Stack operators;
     String queueOutput;
-    Queue postfix;
-
-    initQueue(&postfix);
+    Queue *postfix;
+    Queue localPost;
+    
+    initQueue(postfix);
     initStack(&operators);
+    initQueue(&localPost);
+
+    localPost = *postfix;
 
     printf("Infix Notation: ");
     fgets(infix, 129, stdin);
 
-    postfix = infixToPostfix(infix, &operators);
+    postfix = infixToPostfix(infix);
 
-    while(!isQueueEmpty(postfix))
+
+    while(!isQueueEmpty(localPost))
     {
         //char* dequeue(Queue* queue)
-        strcpy(queueOutput, dequeue(&postfix));
+        strcpy(queueOutput, dequeue(postfix));
 
         printf("%s", queueOutput);
     }
-
 
 }
