@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <ctype.h>
 #include "shunting_yard_algo.h"
 
@@ -26,30 +27,24 @@ int operatorPrecedence(char* key, HashMap operatorMap)
     return get(&operatorMap, key);
 }
 
-int isStringOperator(char tempChar[])
+bool isStringOperator(char tempChar[])
 {
-    int isString;
-
     if (strcmp(tempChar, "==") == 1 || strcmp(tempChar, ">=") == 1 || strcmp(tempChar, "<=") == 1 || strcmp(tempChar, "%") == 1 || strcmp(tempChar, "||") == 1 || strcmp(tempChar, "&&") == 1 || strcmp(tempChar, "!=") == 1)
     {
-        isString = 1;
+        return true;
     }
-    else isString = 0;
 
-    return isString;
+    return false;
 }
 
-int isCharOperator(char tempChar[])
+bool isCharOperator(char tempChar[])
 {
-    int isChar;
-
     if (tempChar == 'x' || tempChar == '-' || tempChar == '*' || tempChar == '/' || tempChar == '!' || tempChar == '^' || tempChar == '>' || tempChar == '<')
     {
-        isChar = 1;
+        return true;
     }
-    else isChar = 0;
-
-    return isChar;
+    
+    return false;
 }
 
 Queue* infixToPostfix(char input[])
