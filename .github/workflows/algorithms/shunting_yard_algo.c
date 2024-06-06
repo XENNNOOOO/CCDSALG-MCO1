@@ -4,30 +4,27 @@
 #include <ctype.h>
 #include "shunting_yard_algo.h"
 
-
-typedef char String[128];
 #define HASHMAP_MAX_SIZE 16
 
-int operatorPrecedence(char* key)
-{
-    HashMap* operatorMap;
+HashMap fillPrecedenceMap() {
+    HashMap operatorMap;
 
-    String signs[16] = {"+", "-", "*", "!" "/", "%", "<", ">", "<=", ">=", "==", "!=", "||", "&&", "^"};
-    int keyValues[16] = {1, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 6, 7, 8};
-    initHashMap(operatorMap);
+    char* signs[HASHMAP_MAX_SIZE] = {"+", "-", "*", "!" "/", "%", "<", ">", "<=", ">=", "==", "!=", "||", "&&", "^"};
+    int keyValues[HASHMAP_MAX_SIZE] = {1, 2, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 6, 7, 8};
+    initHashMap(&operatorMap);
 
     for(int i = 0; i < HASHMAP_MAX_SIZE; i++) 
     {
-        put(operatorMap, signs[i], keyValues[i]);
+        put(&operatorMap, signs[i], keyValues[i]);
     }
-    
-    int precedence = get(operatorMap, key);
-    freeHashMap(operatorMap);
 
-    return precedence;
+    return operatorMap;
 }
 
-
+int operatorPrecedence(char* key, HashMap operatorMap)
+{
+    return get(&operatorMap, key);
+}
 
 int isStringOperator(char tempChar[])
 {
@@ -42,7 +39,6 @@ int isStringOperator(char tempChar[])
     return isString;
 }
 
-
 int isCharOperator(char tempChar[])
 {
     int isChar;
@@ -56,14 +52,13 @@ int isCharOperator(char tempChar[])
     return isChar;
 }
 
-
-
 Queue* infixToPostfix(char input[])
 {
     int i;
     char tempChar[2] = {'\0'};
     Stack* stack;
     Queue* postfix;
+    HashMap operatorMap = fillPrecedenceMap();
     initQueue(postfix);
     initStack(stack);
 
@@ -91,7 +86,7 @@ Queue* infixToPostfix(char input[])
 
             if (isStringOperator(tempChar))
             {
-                while(operatorPrecedence(tempChar) < operatorPrecedence((peekStack(*stack))))
+                while(operatorPrecedence(tempChar, operatorMap) < operatorPrecedence(peekStack(*stack), operatorMap))
                 {
                     enqueue(postfix, pop(stack));
                 }
@@ -116,6 +111,8 @@ Queue* infixToPostfix(char input[])
             pop(stack);
         }
 
+    }
+    
     if (strcmp(tempChar, "") != 0)
     {
         enqueue(postfix, tempChar);
@@ -126,9 +123,6 @@ Queue* infixToPostfix(char input[])
     {
         enqueue(postfix, pop(stack));
     }
-    }
 
     return postfix;
 }
-}
-
