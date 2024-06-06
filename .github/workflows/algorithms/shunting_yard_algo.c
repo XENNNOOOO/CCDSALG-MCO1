@@ -50,12 +50,15 @@ bool isCharOperator(char tempChar[])
 Queue* infixToPostfix(char input[])
 {
     int i;
+    String tempString;
     char tempChar[2] = {'\0'};
     Stack* stack;
     Queue* postfix;
     HashMap operatorMap = fillPrecedenceMap();
     initQueue(postfix);
     initStack(stack);
+
+    strcpy(tempString, "");
 
     for(i = 0; i < strlen(input); i++)
     {
@@ -66,28 +69,28 @@ Queue* infixToPostfix(char input[])
             if (i > 0 && isCharOperator(i-1))
             {
                 push(stack, &(input[i]));
-                strcpy(tempChar, "");
+                strcpy(tempString, "");
             }
-        strcpy(tempChar, &tempChar);
+        strcpy(tempString, &tempChar);
         }
         else if (isCharOperator(tempChar))
         {
             if (i > 0 && isdigit(input[i-1]))
             {
-                enqueue(postfix, tempChar);
-                strcpy(tempChar, "");
+                enqueue(postfix, tempString);
+                strcpy(tempString, "");
             }
-            strcat(tempChar, tempChar);
+            strcat(tempString, tempChar);
 
-            if (isStringOperator(tempChar))
+            if (isStringOperator(tempString))
             {
                 while(operatorPrecedence(tempChar, operatorMap) < operatorPrecedence(peekStack(*stack), operatorMap))
                 {
                     enqueue(postfix, pop(stack));
                 }
 
-                push(stack, tempChar);
-                strcpy(tempChar, "");
+                push(stack, tempString);
+                strcpy(tempString, "");
             }
         }
         else if (tempChar == '(')
@@ -96,8 +99,8 @@ Queue* infixToPostfix(char input[])
         }
         else if (tempChar == ')')
         {
-            enqueue(postfix, tempChar);
-            strcpy(tempChar, "");
+            enqueue(postfix, tempString);
+            strcpy(tempString, "");
 
             while (peekStack(*stack) != '(')
             {
@@ -108,10 +111,10 @@ Queue* infixToPostfix(char input[])
 
     }
     
-    if (strcmp(tempChar, "") != 0)
+    if (strcmp(tempString, "") != 0)
     {
-        enqueue(postfix, tempChar);
-        strcpy(tempChar, "");
+        enqueue(postfix, tempString);
+        strcpy(tempString, "");
     }
 
     while(!isStackEmpty(*stack))
