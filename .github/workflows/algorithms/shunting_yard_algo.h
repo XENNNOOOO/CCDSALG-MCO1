@@ -3,9 +3,9 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-#include "../data_structures/stack.c"
-#include "../data_structures/queue.c"
-#include "../data_structures/hashmap.c"
+#include "../datastructures/stack.c"
+#include "../datastructures/queue.c"
+#include "../datastructures/hashmap.c"
 
 #define HASHMAP_MAX_SIZE 16
 

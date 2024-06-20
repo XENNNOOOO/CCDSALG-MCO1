@@ -1,6 +1,6 @@
 #include "./algorithms/shunting_yard_algo.c"
 #include "./algorithms/rpn_calculator.c"
-#include "data_structures/queue.c"
+#include "datastructures/queue.c"
 
 int main() {
     char input[STRING_LEN] = "3 + 5 * ( 10 - 4 )";

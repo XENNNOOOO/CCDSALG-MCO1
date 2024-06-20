@@ -1,7 +1,7 @@
 #include <string.h>
 
-#include "../data_structures/stack.c"
-#include "../data_structures/queue.c"
+#include "../datastructures/stack.c"
+#include "../datastructures/queue.c"
 
 int isOperator(char* input);
 char *compute(char* operands[], char operator);
