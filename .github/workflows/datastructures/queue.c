@@ -1,3 +1,6 @@
+#ifndef QUEUE_C
+#define QUEUE_C
+
 #include "queue.h"
 
 /**
@@ -117,3 +120,5 @@ void clearQueue(Queue* queue) {
         dequeue(queue);
     }
 }
+
+#endif

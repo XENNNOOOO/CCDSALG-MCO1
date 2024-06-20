@@ -1,3 +1,6 @@
+#ifndef SHUNTING_YARD_ALGO_C
+#define SHUNTING_YARD_ALGO_C
+
 #include "shunting_yard_algo.h"
 
 Queue infixToPostfix(char input[]) {
@@ -86,7 +89,7 @@ HashMap fillPrecedenceMap()
     int keyValues[HASHMAP_MAX_SIZE] = {1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 6, 7, 8};
     initHashMap(&operatorMap);
 
-    for(int i = 0; i < HASHMAP_MAX_SIZE; i++) 
+    for (int i = 0; i < HASHMAP_MAX_SIZE; i++) 
     {
         put(&operatorMap, signs[i], keyValues[i]);
     }
@@ -111,3 +114,5 @@ bool isCharOperator(char tempChar)
     return tempChar == '+' || tempChar == '-' || tempChar == '*' || tempChar == '/' || 
            tempChar == '!' || tempChar == '^' || tempChar == '>' || tempChar == '<';
 }
+
+#endif

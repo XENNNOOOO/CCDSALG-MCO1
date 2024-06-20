@@ -1,5 +1,9 @@
+#ifndef QUEUE_H
+#define QUEUE_H
+
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 typedef struct NodeTag {
     char*           string;
@@ -19,3 +23,5 @@ char* frontOfQueue(Queue* queue);
 char* rearOfQueue(Queue* queue);
 bool isQueueEmpty(Queue queue);
 void clearQueue(Queue* queue);
+
+#endif

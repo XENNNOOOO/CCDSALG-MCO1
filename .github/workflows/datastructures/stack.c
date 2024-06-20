@@ -1,3 +1,6 @@
+#ifndef STACK_C
+#define STACK_C
+
 #include "stack.h"
 
 /**
@@ -88,3 +91,5 @@ void clearStack(Stack* stack) {
         pop(stack);
     }
 }
+
+#endif

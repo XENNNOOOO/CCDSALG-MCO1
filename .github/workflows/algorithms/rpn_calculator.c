@@ -1,3 +1,6 @@
+#ifndef RPN_CALCULATOR_C
+#define RPN_CALCULATOR_C
+
 #include "rpn_calculator.h"
 
 int isOperator(char* input)
@@ -22,7 +25,7 @@ char *compute(char* operands[], char operator)
     int num2 = atoi(operands[0]);
     char *returnValue = (char*) malloc (11);
 
-    switch(operator)
+    switch (operator)
     {
         case 1:
             result = (num1 + num2);
@@ -78,19 +81,19 @@ char *compute(char* operands[], char operator)
     return returnValue;
 }
 
-int evaluatePostfix(Queue queue)
+int evaluatePostfix(Queue* queue)
 {
     Stack tempStack;
     initStack(&tempStack);
 
-    while(!isQueueEmpty(queue))
+    while(!isQueueEmpty(*queue))
     {
         char* operands[2] = {0, 0};
-        int token = isOperator(queue.front->string);
+        int token = isOperator(queue->front->string);
 
         if (token == 4 && peekStack(tempStack) == 0)
         {
-            clearQueue(&queue);
+            clearQueue(queue);
             clearStack(&tempStack);
             printf("Error: Division by zero\n");
             return atoi(peekStack(tempStack));
@@ -103,13 +106,16 @@ int evaluatePostfix(Queue queue)
             strcpy(operands[1], peekStack(tempStack));
             pop(&tempStack);
             push(&tempStack, compute(operands, token));
-            dequeue(&queue);
+            dequeue(queue);
         }
-        else{
-            push(&tempStack, queue.front->string);
-            dequeue(&queue);
+        else
+        {
+            push(&tempStack, queue->front->string);
+            dequeue(queue);
         }
     }
 
     return atoi(peekStack(tempStack));
 }
+
+#endif

@@ -1,3 +1,8 @@
+#ifndef HASHMAP_H
+#define HASHMAP_H
+
+#include <stdlib.h>
+
 #include "../calculator.h"
 
 #define HASHMAP_SIZE 10
@@ -16,3 +21,5 @@ void initHashMap(HashMap* map);
 void put(HashMap* map, char* key, int value);
 int get(HashMap* map, char* key);
 void freeHashMap(HashMap* map);
+
+#endif

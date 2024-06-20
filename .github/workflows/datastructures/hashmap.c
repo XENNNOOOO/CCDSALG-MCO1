@@ -1,3 +1,6 @@
+#ifndef HASHMAP_C
+#define HASHMAP_C
+
 #include "hashmap.h"
 
 /**
@@ -8,12 +11,18 @@
  * @return The hash value.
  */
 unsigned int hash(const char* key) {
+    if (key == NULL) {
+        fprintf(stderr, "Error: Null key provided to hash function.\n");
+        exit(EXIT_FAILURE);
+    }
+
     unsigned int hash = 0;
     for (int i = 0; key[i] != '\0'; i++) {
         hash = 31 * hash + key[i];
     }
     return hash % HASHMAP_SIZE;
 }
+
 
 /**
  * Initializes the hash map.
@@ -87,3 +96,5 @@ void freeHashMap(HashMap* map) {
     }
     free(map);
 }
+
+#endif

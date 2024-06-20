@@ -1,5 +1,9 @@
+#ifndef STACK_H
+#define STACK_H
+
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 #define MAX_SIZE 128
 
@@ -15,3 +19,5 @@ char* peekStack(Stack stack);
 bool isStackEmpty(Stack stack);
 bool isStackFull(Stack stack);
 void clearStack(Stack* stack);
+
+#endif
