@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include "utils.h"
 
 /**
  * Allocates a specified number of bytes of memory and returns a pointer to the allocated memory.

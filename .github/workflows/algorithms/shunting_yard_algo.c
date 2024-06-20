@@ -1,57 +1,18 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <ctype.h>
 #include "shunting_yard_algo.h"
 
-#define HASHMAP_MAX_SIZE 16
-
-HashMap fillPrecedenceMap() {
-    HashMap operatorMap;
-
-    char* signs[HASHMAP_MAX_SIZE] = {"+", "-", "*", "!", "/", "%", "<", ">", "<=", ">=", "==", "!=", "||", "&&", "^"};
-    int keyValues[HASHMAP_MAX_SIZE] = {1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 6, 7, 8};
-    initHashMap(&operatorMap);
-
-    for(int i = 0; i < HASHMAP_MAX_SIZE; i++) 
-    {
-        put(&operatorMap, signs[i], keyValues[i]);
-    }
-
-    return operatorMap;
-}
-
-int operatorPrecedence(char* key, HashMap operatorMap)
-{
-    return get(&operatorMap, key);
-}
-
-bool isStringOperator(char* tempChar) {
-    return strcmp(tempChar, "==") == 0 || strcmp(tempChar, ">=") == 0 || strcmp(tempChar, "<=") == 0 || 
-           strcmp(tempChar, "%") == 0 || strcmp(tempChar, "||") == 0 || strcmp(tempChar, "&&") == 0 || 
-           strcmp(tempChar, "!=") == 0;
-}
-
-bool isCharOperator(char tempChar) {
-    return tempChar == '+' || tempChar == '-' || tempChar == '*' || tempChar == '/' || 
-           tempChar == '!' || tempChar == '^' || tempChar == '>' || tempChar == '<';
-}
-
-Queue* infixToPostfix(char input[])
-{
+Queue* infixToPostfix(char input[]) {
     char        tempString[50] = {'\0'};
     char        tempChar[2] = {'\0', '\0'};
     Stack*      stack = (Stack*) allocate(sizeof(Stack));
-    Queue*      postfix = (Queue*) allocate(sizeof{Queue});
-    HashMap*    operatorMap = fillPrecedenceMap();
-    
+    Queue*      postfix = (Queue*) allocate(sizeof(Queue));
+    HashMap     operatorMap = fillPrecedenceMap();
+
     initQueue(postfix);
     initStack(stack);
 
     strcpy(tempString, "");
 
-    for (int i = 0; i < strlen(input); i++)
+    for (int i = 0; i < (int)strlen(input); i++)
     {
         tempChar[0] = input[i];
 
@@ -62,7 +23,7 @@ Queue* infixToPostfix(char input[])
                 push(stack, tempString);
                 strcpy(tempString, "");
             }
-            strcat(tempString, &tempChar);
+            strcat(tempString, tempChar);
         }
         else if (isCharOperator(tempChar[0]))
         {
@@ -102,7 +63,7 @@ Queue* infixToPostfix(char input[])
         }
 
     }
-    
+
     if (strcmp(tempString, "") != 0)
     {
         enqueue(postfix, tempString);
@@ -115,4 +76,38 @@ Queue* infixToPostfix(char input[])
     }
 
     return postfix;
+}
+
+HashMap fillPrecedenceMap()
+{
+    HashMap operatorMap;
+
+    char* signs[HASHMAP_MAX_SIZE] = {"+", "-", "*", "!", "/", "%", "<", ">", "<=", ">=", "==", "!=", "||", "&&", "^"};
+    int keyValues[HASHMAP_MAX_SIZE] = {1, 1, 2, 2, 3, 3, 4, 4, 4, 4, 5, 5, 6, 7, 8};
+    initHashMap(&operatorMap);
+
+    for(int i = 0; i < HASHMAP_MAX_SIZE; i++) 
+    {
+        put(&operatorMap, signs[i], keyValues[i]);
+    }
+
+    return operatorMap;
+}
+
+int operatorPrecedence(char* key, HashMap operatorMap)
+{
+    return get(&operatorMap, key);
+}
+
+bool isStringOperator(char* tempChar)
+{
+    return strcmp(tempChar, "==") == 0 || strcmp(tempChar, ">=") == 0 || strcmp(tempChar, "<=") == 0 || 
+           strcmp(tempChar, "%") == 0 || strcmp(tempChar, "||") == 0 || strcmp(tempChar, "&&") == 0 || 
+           strcmp(tempChar, "!=") == 0;
+}
+
+bool isCharOperator(char tempChar)
+{
+    return tempChar == '+' || tempChar == '-' || tempChar == '*' || tempChar == '/' || 
+           tempChar == '!' || tempChar == '^' || tempChar == '>' || tempChar == '<';
 }
