@@ -71,7 +71,7 @@ char *compute(char* operands[], char operator){
   return returnValue;
 }
 
-int postfix (Queue queue){
+int evaluatePostfix(Queue queue){
   Stack tempStack;
   initStack(&tempStack);
 
