@@ -1,14 +1,14 @@
 #include "shunting_yard_algo.h"
 
-Queue* infixToPostfix(char input[]) {
+Queue infixToPostfix(char input[]) {
     char        tempString[50] = {'\0'};
     char        tempChar[2] = {'\0', '\0'};
-    Stack*      stack = (Stack*) allocate(sizeof(Stack));
-    Queue*      postfix = (Queue*) allocate(sizeof(Queue));
+    Stack       stack;
+    Queue       postfix;
     HashMap     operatorMap = fillPrecedenceMap();
 
-    initQueue(postfix);
-    initStack(stack);
+    initQueue(&postfix);
+    initStack(&stack);
 
     strcpy(tempString, "");
 
@@ -18,9 +18,9 @@ Queue* infixToPostfix(char input[]) {
 
         if (isdigit(input[i]))
         {
-            if (i > 0 && isCharOperator(i - 1))
+            if (i > 0 && isCharOperator(input[i - 1]))
             {
-                push(stack, tempString);
+                push(&stack, tempString);
                 strcpy(tempString, "");
             }
             strcat(tempString, tempChar);
@@ -29,50 +29,50 @@ Queue* infixToPostfix(char input[]) {
         {
             if (i > 0 && isdigit(input[i - 1]))
             {
-                enqueue(postfix, tempString);
+                enqueue(&postfix, tempString);
                 strcpy(tempString, "");
             }
             strcat(tempString, tempChar);
 
             if (isStringOperator(tempString))
             {
-                while (!isStackEmpty(*stack) && operatorPrecedence(tempChar, operatorMap) <= operatorPrecedence(peekStack(*stack), operatorMap))
+                while (!isStackEmpty(stack) && operatorPrecedence(tempChar, operatorMap) <= operatorPrecedence(peekStack(stack), operatorMap))
                 {
-                    enqueue(postfix, pop(stack));
+                    enqueue(&postfix, pop(&stack));
                 }
 
-                push(stack, tempString);
+                push(&stack, tempString);
                 strcpy(tempString, "");
             }
         }
         else if (tempChar[0] == '(')
         {
-            push(stack, tempChar);
+            push(&stack, tempChar);
         }
         else if (tempChar[0] == ')')
         {
             if (strcmp(tempString, "") != 0) {
-                enqueue(postfix, tempString);
+                enqueue(&postfix, tempString);
                 strcpy(tempString, "");
             }
 
-            while (peekStack(*stack)[0] != '(') {
-                enqueue(postfix, pop(stack));
+            while (peekStack(stack)[0] != '(') {
+                enqueue(&postfix, pop(&stack));
             }
-            pop(stack);
+            pop(&stack);
         }
 
     }
 
     if (strcmp(tempString, "") != 0)
     {
-        enqueue(postfix, tempString);
+        enqueue(&postfix, tempString);
         strcpy(tempString, "");
     }
 
-    while(!isStackEmpty(*stack))
+    while(!isStackEmpty(stack))
     {
-        enqueue(postfix, pop(stack));
+        enqueue(&postfix, pop(&stack));
     }
 
     return postfix;

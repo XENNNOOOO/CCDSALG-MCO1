@@ -17,7 +17,7 @@ void initQueue(Queue* queue) {
  * @param string The string to be added to the queue.
  */
 void enqueue(Queue* queue, char* string) {
-    Node* newNode = (Node*) allocate(sizeof(Node));
+    Node* newNode = (Node*) malloc(sizeof(Node));
 
     newNode->string = string;
     newNode->next = NULL;
@@ -106,7 +106,7 @@ bool isQueueEmpty(Queue queue) {
  * Clears all elements from the queue.
  * 
  * This function removes all elements from the given queue by 
- * repeatedly dequeuing elements until the queue is empty.
+ * repeatedly dequeue elements until the queue is empty.
  * 
  * @param queue A pointer to the queue to be cleared.
  * 

@@ -1,11 +1,12 @@
-#include "algorithms/shunting_yard_algo.h"
-#include "algorithms/rpn_calculator.h"
-#include "data_structures/queue.h"
+#include "./algorithms/shunting_yard_algo.c"
+#include "./algorithms/rpn_calculator.c"
+#include "data_structures/queue.c"
 
 int main() {
     char input[STRING_LEN] = "3 + 5 * ( 10 - 4 )";
-    Queue* result = infixToPostfix(input);
-    printf("%d", evaluatePostfix(*result));
-    free(result);
+    Queue result;
+    result = infixToPostfix(input);
+    printf("%d", evaluatePostfix(result));
+    printf("this code runs");
     return 0;
 }

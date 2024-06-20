@@ -1,11 +1,8 @@
-#ifndef RPN_CALCULATOR_H
-#define RPN_CALCULATOR_H
+#include <string.h>
 
-#include "../data_structures/stack.h"
-#include "../data_structures/queue.h"
+#include "../data_structures/stack.c"
+#include "../data_structures/queue.c"
 
 int isOperator(char* input);
 char *compute(char* operands[], char operator);
 int evaluatePostfix(Queue queue);
-
-#endif

@@ -7,7 +7,7 @@
  * 
  * @return The hash value.
  */
-unsigned int hash(char* key) {
+unsigned int hash(const char* key) {
     unsigned int hash = 0;
     for (int i = 0; key[i] != '\0'; i++) {
         hash = 31 * hash + key[i];
@@ -39,7 +39,7 @@ void initHashMap(HashMap* map) {
  */
 void put(HashMap* map, char* key, int value) {
     unsigned int index = hash(key);
-    KeyValuePair* kvp = (KeyValuePair*) allocate(sizeof(KeyValuePair));
+    KeyValuePair* kvp = (KeyValuePair*) malloc(sizeof(KeyValuePair));
 
     kvp->key = strdup(key);
     kvp->value = value;

@@ -1,8 +1,4 @@
-#ifndef QUEUE_H
-#define QUEUE_H
-
-#include "../calculator.h"
-#include "../utils.h"
+#include <stdio.h>
 
 typedef struct NodeTag {
     char*           string;
@@ -22,5 +18,3 @@ char* frontOfQueue(Queue* queue);
 char* rearOfQueue(Queue* queue);
 bool isQueueEmpty(Queue queue);
 void clearQueue(Queue* queue);
-
-#endif
